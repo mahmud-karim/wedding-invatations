@@ -1,32 +1,76 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import WaxSeal from '../WaxSeal'
+import WaxSealV4 from '../v4/WaxSealV4'
+import { SparkBurst } from '../v4/AmbientV4'
 import styles from '../../styles/v5/EnvelopeV5.module.css'
 
-/* Arabesque SVG border for the envelope face */
-function ArabesqueLine() {
+/* ── Rich filigree corner with more detail ── */
+function FiligreeCorner({ mirror }) {
   return (
-    <svg width="100%" height="12" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true">
-      <path
-        d="M0 6 Q10 0 20 6 Q30 12 40 6 Q50 0 60 6 Q70 12 80 6 Q90 0 100 6 Q110 12 120 6 Q130 0 140 6 Q150 12 160 6 Q170 0 180 6 Q190 12 200 6"
-        stroke="var(--v5-gold)" strokeWidth="1.2" fill="none" opacity="0.6"
-      />
+    <svg width="56" height="56" viewBox="0 0 56 56"
+      style={{ transform: mirror ? `scale(${mirror})` : undefined }} aria-hidden="true">
+      {/* Outer curve */}
+      <path d="M4 4 Q4 28 28 28 Q28 4 52 4" fill="none" stroke="#C9952A" strokeWidth="1" opacity="0.5" />
+      {/* Middle curve */}
+      <path d="M4 4 Q4 20 20 20 Q20 4 36 4" fill="none" stroke="#C9952A" strokeWidth="0.8" opacity="0.4" />
+      {/* Inner curve */}
+      <path d="M4 4 Q4 12 12 12 Q12 4 20 4" fill="none" stroke="#E4CC7A" strokeWidth="0.6" opacity="0.35" />
+      {/* Corner triangle fill */}
+      <path d="M4 4 L14 4 L4 14 Z" fill="#C9952A" opacity="0.25" />
+      {/* Scroll flourish */}
+      <path d="M28 28 Q32 24 30 18 Q28 12 34 10" fill="none" stroke="#C9952A" strokeWidth="0.6" opacity="0.3" />
+      <path d="M28 28 Q24 32 18 30 Q12 28 10 34" fill="none" stroke="#C9952A" strokeWidth="0.6" opacity="0.3" />
+      {/* Dot accents */}
+      <circle cx="6" cy="6" r="2" fill="#E4CC7A" opacity="0.5" />
+      <circle cx="18" cy="6" r="1" fill="#C9952A" opacity="0.35" />
+      <circle cx="6" cy="18" r="1" fill="#C9952A" opacity="0.35" />
+      <circle cx="30" cy="12" r="0.8" fill="#E4CC7A" opacity="0.3" />
+      <circle cx="12" cy="30" r="0.8" fill="#E4CC7A" opacity="0.3" />
     </svg>
   )
 }
 
-/* Geometric corner ornament */
-function CornerOrnament({ flip }) {
+/* ── Ornate gold line with center diamond ── */
+function OrnateGoldLine() {
   return (
-    <svg
-      width="32" height="32" viewBox="0 0 32 32"
-      style={{ transform: flip ? 'scaleX(-1)' : undefined }}
-      aria-hidden="true"
-    >
-      <path d="M2 2 L16 2 L2 16 Z" fill="none" stroke="var(--v5-gold)" strokeWidth="1" opacity="0.7" />
-      <path d="M2 2 L8 2 L2 8 Z" fill="var(--v5-gold)" opacity="0.4" />
-      <circle cx="20" cy="20" r="2" fill="var(--v5-gold)" opacity="0.5" />
-      <circle cx="26" cy="14" r="1.2" fill="var(--v5-gold)" opacity="0.35" />
+    <svg width="100%" height="12" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true">
+      {/* Main line */}
+      <line x1="0" y1="6" x2="130" y2="6" stroke="#C9952A" strokeWidth="0.6" opacity="0.35" />
+      <line x1="170" y1="6" x2="300" y2="6" stroke="#C9952A" strokeWidth="0.6" opacity="0.35" />
+      {/* Highlight line */}
+      <line x1="0" y1="5" x2="130" y2="5" stroke="#E4CC7A" strokeWidth="0.3" opacity="0.2" />
+      <line x1="170" y1="5" x2="300" y2="5" stroke="#E4CC7A" strokeWidth="0.3" opacity="0.2" />
+      {/* Center diamond */}
+      <polygon points="150,1 157,6 150,11 143,6" fill="none" stroke="#C9952A" strokeWidth="0.8" opacity="0.45" />
+      <polygon points="150,3 154,6 150,9 146,6" fill="#C9952A" opacity="0.2" />
+      {/* Side dots */}
+      <circle cx="130" cy="6" r="1.2" fill="#C9952A" opacity="0.35" />
+      <circle cx="170" cy="6" r="1.2" fill="#C9952A" opacity="0.35" />
+      <circle cx="40" cy="6" r="0.8" fill="#C9952A" opacity="0.2" />
+      <circle cx="260" cy="6" r="0.8" fill="#C9952A" opacity="0.2" />
+    </svg>
+  )
+}
+
+/* ── M & F monogram for envelope center ── */
+function Monogram() {
+  return (
+    <svg className={styles.monogram} width="80" height="44" viewBox="0 0 80 44" aria-hidden="true">
+      {/* Outer oval frame */}
+      <ellipse cx="40" cy="22" rx="38" ry="20" fill="none" stroke="#C9952A" strokeWidth="0.8" opacity="0.35" />
+      <ellipse cx="40" cy="22" rx="34" ry="17" fill="none" stroke="#C9952A" strokeWidth="0.4" opacity="0.2" />
+      {/* M */}
+      <text x="18" y="28" fontFamily="Cormorant Garamond, serif" fontSize="18" fontWeight="300"
+        fill="#C9952A" opacity="0.5" textAnchor="middle">M</text>
+      {/* Ampersand */}
+      <text x="40" y="26" fontFamily="Cormorant Garamond, serif" fontSize="12" fontStyle="italic"
+        fill="#E4CC7A" opacity="0.4" textAnchor="middle">&amp;</text>
+      {/* F */}
+      <text x="62" y="28" fontFamily="Cormorant Garamond, serif" fontSize="18" fontWeight="300"
+        fill="#C9952A" opacity="0.5" textAnchor="middle">F</text>
+      {/* Side flourish dots */}
+      <circle cx="6" cy="22" r="1" fill="#C9952A" opacity="0.25" />
+      <circle cx="74" cy="22" r="1" fill="#C9952A" opacity="0.25" />
     </svg>
   )
 }
@@ -38,11 +82,11 @@ export default function EnvelopeV5({ onOpen }) {
   function handleSealClick() {
     if (phase !== 'idle') return
     setPhase('peeling')
-    setTimeout(() => setPhase('opening'), 520)
+    setTimeout(() => setPhase('opening'), 550)
     setTimeout(() => {
       setPhase('done')
       onOpen()
-    }, 520 + 1100)
+    }, 550 + 1200)
   }
 
   const isOpening = phase === 'opening' || phase === 'done'
@@ -53,76 +97,99 @@ export default function EnvelopeV5({ onOpen }) {
       className={styles.scene}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0, scale: 0.85, transition: { duration: 0.5 } }}
+      exit={{ opacity: 0, scale: 0.85, transition: { duration: 0.6 } }}
     >
+      {/* Soft ambient glow */}
+      <div className={styles.ambientGlow} />
+
+      {/* Gold spark burst on seal tap */}
+      <SparkBurst visible={sealGone && phase !== 'done'} />
+
+      {/* Floating envelope */}
       <motion.div
-        className={styles.envelopeWrapper}
+        className={styles.envelopeFloat}
         animate={
           isOpening
-            ? { y: [0, -8, 0], scale: [1, 1.02, 1] }
-            : { y: [0, -12, 0, -8, 0] }
+            ? { y: [0, -6, 0] }
+            : { y: [0, -10, 0, -6, 0] }
         }
         transition={
           isOpening
             ? { duration: 0.4 }
-            : { duration: 4, repeat: Infinity, ease: 'easeInOut' }
+            : { duration: 5, repeat: Infinity, ease: 'easeInOut' }
         }
       >
         <div className={styles.envelope}>
-          <div className={styles.flapBack} />
+          {/* Back face */}
+          <div className={styles.envBack} />
 
+          {/* Card sliver sliding out */}
           <AnimatePresence>
             {isOpening && (
               <motion.div
                 className={styles.cardSliver}
-                initial={{ y: 0, opacity: 0.8 }}
-                animate={{ y: -110, opacity: 1 }}
-                transition={{ duration: 0.55, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                initial={{ y: 0, opacity: 0.85 }}
+                animate={{ y: -120, opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
               />
             )}
           </AnimatePresence>
 
-          <div className={styles.envelopeFace}>
-            <div className={styles.faceCorners}>
-              <CornerOrnament />
-              <CornerOrnament flip />
+          {/* Envelope face */}
+          <div className={styles.envFace}>
+            <div className={styles.cornerRow}>
+              <FiligreeCorner />
+              <FiligreeCorner mirror="-1,1" />
             </div>
-            <ArabesqueLine />
-            <div className={styles.faceCenter} />
-            <ArabesqueLine />
-            <div className={styles.faceCornersBtm}>
-              <CornerOrnament />
-              <CornerOrnament flip />
+            <div className={styles.goldLine}>
+              <OrnateGoldLine />
+            </div>
+            <div className={styles.faceCenter}>
+              <Monogram />
+            </div>
+            <div className={styles.goldLine}>
+              <OrnateGoldLine />
+            </div>
+            <div className={styles.cornerRow}>
+              <FiligreeCorner mirror="1,-1" />
+              <FiligreeCorner mirror="-1,-1" />
             </div>
           </div>
 
+          {/* Gold shimmer overlay */}
+          <div className={styles.shimmerOverlay} />
+
+          {/* Flap */}
           <motion.div
             className={styles.flap}
             animate={isOpening ? { rotateX: -180 } : { rotateX: 0 }}
-            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className={styles.flapInner} />
+            <div className={styles.flapInner}>
+              <div className={styles.flapPattern} />
+            </div>
           </motion.div>
 
+          {/* Wax seal */}
           <div className={styles.sealWrapper}>
             <AnimatePresence>
               {!sealGone && (
                 <motion.button
                   className={styles.sealBtn}
                   onClick={handleSealClick}
-                  aria-label="Break the wax seal to open your invitation"
+                  aria-label="Break the seal to open your invitation"
                   exit={{
-                    rotate: [0, -18, -42],
-                    x: [0, 18, 60],
-                    y: [0, -28, -90],
-                    scale: [1, 1.08, 0.45],
+                    rotate: [0, -15, -40],
+                    x: [0, 15, 55],
+                    y: [0, -25, -80],
+                    scale: [1, 1.06, 0.4],
                     opacity: [1, 1, 0],
-                    transition: { duration: 0.52, ease: 'easeIn' },
+                    transition: { duration: 0.55, ease: 'easeIn' },
                   }}
-                  whileHover={{ scale: 1.08 }}
+                  whileHover={{ scale: 1.07 }}
                   whileTap={{ scale: 0.94 }}
                 >
-                  <WaxSeal size={88} />
+                  <WaxSealV4 size={92} />
                 </motion.button>
               )}
             </AnimatePresence>
@@ -130,14 +197,15 @@ export default function EnvelopeV5({ onOpen }) {
         </div>
       </motion.div>
 
+      {/* Prompt */}
       <AnimatePresence>
         {phase === 'idle' && (
           <motion.p
             className={styles.prompt}
             initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: [0.5, 1, 0.5], y: 0 }}
+            animate={{ opacity: [0.4, 0.9, 0.4], y: 0 }}
             exit={{ opacity: 0, y: 4 }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+            transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
           >
             Tap the seal to open your invitation
           </motion.p>

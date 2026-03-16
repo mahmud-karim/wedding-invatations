@@ -1,13 +1,12 @@
 :root {
   --v5-cream: #FAF6EF;
   --v5-cream-warm: #EDE5D4;
-  --v5-gold: #B8860B;
-  --v5-gold-light: #D4B254;
+  --v5-gold: #d4a843;
+  --v5-gold-light: #e8c870;
   --v5-gold-dark: rgba(184, 134, 11, 0.5);
-  --v5-red: #9B2335;
   --v5-text: #3A2A1A;
   --v5-text-mid: #8A6E4A;
-  --v5-rose: #D4B254;
+  --v5-rose: #c9968a;
   --v5-bg: #4a1020;
   --v5-bg-warm: #5c1828;
   --v5-font-display: 'Cormorant Garamond', 'EB Garamond', serif;

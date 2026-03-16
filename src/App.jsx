@@ -235,7 +235,10 @@ export default function App() {
                 <EnvelopeV5 key="env5" onOpen={() => setStage('card')} />
               )}
               {stage === 'card' && (
-                <CardV5 key="card5" />
+                <>
+                  <GoldOrbsV4 count={16} />
+                  <CardV5 key="card5" />
+                </>
               )}
             </AnimatePresence>
           </motion.div>

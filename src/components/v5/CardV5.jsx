@@ -1,61 +1,67 @@
 import { motion } from 'framer-motion'
-import GlowOrbs from '../GlowOrbs'
 import styles from '../../styles/v5/CardV5.module.css'
 
-/* Arabesque top/bottom border SVG */
-function ArabesqueBorder({ flip }) {
+/* ── Crescent & Star medallion ── */
+function CrescentMedallion() {
   return (
-    <svg
-      className={styles.border}
-      viewBox="0 0 400 40"
-      preserveAspectRatio="xMidYMid meet"
-      style={flip ? { transform: 'scaleY(-1)' } : undefined}
-      aria-hidden="true"
-    >
-      <polygon points="200,4 208,14 200,24 192,14" fill="var(--v5-gold)" opacity="0.9" />
-      {[-120, -80, -40, 0, 40, 80, 120].map((offset, i) => (
-        <g key={i} transform={`translate(${200 + offset}, 14)`}>
-          <rect x="-5" y="-5" width="10" height="10" fill="none"
-            stroke="var(--v5-gold)" strokeWidth="0.8" opacity="0.6"
-            transform="rotate(45)" />
-          <circle cx="0" cy="0" r="1.5" fill="var(--v5-gold)" opacity="0.7" />
-        </g>
-      ))}
-      <line x1="0" y1="14" x2="175" y2="14" stroke="var(--v5-gold)" strokeWidth="0.6" opacity="0.4" />
-      <line x1="225" y1="14" x2="400" y2="14" stroke="var(--v5-gold)" strokeWidth="0.6" opacity="0.4" />
-      <polygon points="0,4 12,4 0,16" fill="var(--v5-gold)" opacity="0.5" />
-      <polygon points="400,4 388,4 400,16" fill="var(--v5-gold)" opacity="0.5" />
-      {[30, 60, 90].map(x => (
-        <g key={x}>
-          <circle cx={x} cy="14" r="1" fill="var(--v5-gold)" opacity="0.4" />
-          <circle cx={400 - x} cy="14" r="1" fill="var(--v5-gold)" opacity="0.4" />
-        </g>
-      ))}
+    <svg className={styles.medallion} viewBox="0 0 120 120" aria-hidden="true">
+      <circle cx="60" cy="60" r="56" fill="none" stroke="#B8860B" strokeWidth="0.8" opacity="0.35" />
+      <circle cx="60" cy="60" r="52" fill="none" stroke="#B8860B" strokeWidth="0.5" opacity="0.25" />
+      {Array.from({ length: 12 }, (_, i) => {
+        const angle = (i * 30 * Math.PI) / 180
+        const x1 = 60 + 48 * Math.cos(angle)
+        const y1 = 60 + 48 * Math.sin(angle)
+        const x2 = 60 + 53 * Math.cos(angle)
+        const y2 = 60 + 53 * Math.sin(angle)
+        return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#B8860B" strokeWidth="0.8" opacity="0.3" />
+      })}
+      <path d="M60 28 A22 22 0 1 1 38 60 A15 15 0 1 0 60 28 Z"
+        fill="#B8860B" opacity="0.45" />
+      <path d="M75 42 L78 52 L88 52 L80 58 L83 68 L75 62 L67 68 L70 58 L62 52 L72 52 Z"
+        fill="#B8860B" opacity="0.4" />
+      <circle cx="60" cy="60" r="24" fill="none" stroke="#B8860B" strokeWidth="0.5" opacity="0.2" />
     </svg>
   )
 }
 
-function GoldDivider() {
+/* ── Mughal-inspired arch ── */
+function MughalArch() {
   return (
-    <div className={styles.divider} aria-hidden="true">
-      <span className={styles.dividerLine} />
-      <svg width="14" height="14" viewBox="0 0 14 14">
-        <polygon points="7,1 13,7 7,13 1,7" fill="var(--v5-gold)" opacity="0.85" />
+    <svg className={styles.arch} viewBox="0 0 300 70" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <path d="M30 68 L30 30 Q30 6 150 6 Q270 6 270 30 L270 68"
+        fill="none" stroke="#B8860B" strokeWidth="1" opacity="0.5" />
+      <path d="M48 68 L48 34 Q48 14 150 14 Q252 14 252 34 L252 68"
+        fill="none" stroke="#B8860B" strokeWidth="0.6" opacity="0.3" />
+      <path d="M150,4 L155,14 L150,24 L145,14 Z" fill="#B8860B" opacity="0.4" />
+      <circle cx="30" cy="68" r="2.5" fill="#B8860B" opacity="0.35" />
+      <circle cx="270" cy="68" r="2.5" fill="#B8860B" opacity="0.35" />
+      <circle cx="150" cy="30" r="2" fill="#B8860B" opacity="0.2" />
+      <circle cx="143" cy="33" r="1.5" fill="#B8860B" opacity="0.15" />
+      <circle cx="157" cy="33" r="1.5" fill="#B8860B" opacity="0.15" />
+    </svg>
+  )
+}
+
+/* ── Gold divider with diamond ── */
+function GoldDividerV4() {
+  return (
+    <div className={styles.divider}>
+      <span className={styles.divLine} />
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+        <polygon points="9,1 17,9 9,17 1,9" fill="none" stroke="#B8860B" strokeWidth="1" opacity="0.5" />
+        <polygon points="9,4 14,9 9,14 4,9" fill="#B8860B" opacity="0.2" />
       </svg>
-      <span className={styles.dividerLine} />
+      <span className={styles.divLine} />
     </div>
   )
 }
 
-const containerVariants = {
+const stagger = {
   hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.18, delayChildren: 0.3 },
-  },
+  visible: { transition: { staggerChildren: 0.15, delayChildren: 0.3 } },
 }
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+const fadeUp = {
+  hidden: { opacity: 0, y: 22 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
 }
 
@@ -67,76 +73,89 @@ export default function CardV5() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
     >
-      <GlowOrbs />
       <motion.div
         className={styles.card}
         initial={{ scale: 0.15, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
       >
+        <div className={styles.cardShimmer} />
+        <div className={styles.glowPulse} />
+
         <motion.div
           className={styles.inner}
-          variants={containerVariants}
+          variants={stagger}
           initial="hidden"
           animate="visible"
         >
-          <motion.p variants={itemVariants} className={styles.bismillah}>
+          <motion.div variants={fadeUp}>
+            <CrescentMedallion />
+          </motion.div>
+
+          <motion.p variants={fadeUp} className={styles.bismillah}>
             بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
           </motion.p>
 
-          <motion.div variants={itemVariants}>
-            <ArabesqueBorder />
-          </motion.div>
-
-          <motion.p variants={itemVariants} className={styles.together}>
-            Together with their families
+          <motion.p variants={fadeUp} className={styles.bismillahEn}>
+            In the name of Allah, the Most Merciful, the Most Compassionate
           </motion.p>
 
-          <motion.h1 variants={itemVariants} className={styles.names}>
-            Mahmud
-            <span className={styles.ampersand}>&</span>
-            Fariah
-          </motion.h1>
-
-          <motion.div variants={itemVariants}>
-            <GoldDivider />
+          <motion.div variants={fadeUp}>
+            <MughalArch />
           </motion.div>
 
-          <motion.p variants={itemVariants} className={styles.request}>
-            request the honour of your presence at their
+          <motion.p variants={fadeUp} className={styles.intro}>
+            With gratitude to Allah and joy in our hearts, we invite you to celebrate the
           </motion.p>
 
-          <motion.h2 variants={itemVariants} className={styles.eventTitle}>
+          <motion.h2 variants={fadeUp} className={styles.eventTitle}>
             Wedding Reception
           </motion.h2>
 
-          <motion.div variants={itemVariants}>
-            <GoldDivider />
+          <motion.p variants={fadeUp} className={styles.ofText}>of</motion.p>
+
+          <motion.h1 variants={fadeUp} className={styles.names}>
+            Mahmud
+            <span className={styles.amp}>&amp;</span>
+            Fariah
+          </motion.h1>
+
+          <motion.div variants={fadeUp}>
+            <GoldDividerV4 />
           </motion.div>
 
-          <motion.div variants={itemVariants} className={styles.dateTime}>
-            <p className={styles.date}>Sunday, the Twenty-Sixth of April</p>
-            <p className={styles.year}>Two Thousand &amp; Twenty-Six</p>
-            <p className={styles.time}>6:30 in the evening until 11:30</p>
+          <motion.div variants={fadeUp} className={styles.dateGrid}>
+            <span className={styles.dayLabel}>SUNDAY</span>
+            <span className={styles.dayNum}>26</span>
+            <span className={styles.timeLabel}>AT 6:30 PM</span>
+            <span className={styles.monthYear} style={{ gridColumn: '1 / -1' }}>APRIL · 2026</span>
           </motion.div>
 
-          <motion.div variants={itemVariants}>
-            <GoldDivider />
-          </motion.div>
-
-          <motion.div variants={itemVariants} className={styles.venue}>
-            <p className={styles.venueName}>World's Fair Marina</p>
-            <p className={styles.venueAddress}>Flushing Meadows Corona Park</p>
-            <p className={styles.venueCity}>Queens, New York</p>
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
-            <ArabesqueBorder flip />
-          </motion.div>
-
-          <motion.p variants={itemVariants} className={styles.dua}>
-            جَزَاكَ اللَّهُ خَيْرًا
+          <motion.p variants={fadeUp} className={styles.time}>
+            6:30 in the evening until 11:30
           </motion.p>
+
+          <motion.div variants={fadeUp}>
+            <GoldDividerV4 />
+          </motion.div>
+
+          <motion.div variants={fadeUp} className={styles.venue}>
+            <p className={styles.venueName}>World's Fair Marina</p>
+            <p className={styles.venueAddr}>Flushing Meadows Corona Park</p>
+            <p className={styles.venueCity}>Queens, New York City</p>
+          </motion.div>
+
+          <motion.div variants={fadeUp}>
+            <GoldDividerV4 />
+          </motion.div>
+
+          <motion.p variants={fadeUp} className={styles.closing}>
+            Please join us for an evening of love, prayer, and celebration
+          </motion.p>
+
+          <motion.div variants={fadeUp}>
+            <CrescentMedallion />
+          </motion.div>
         </motion.div>
       </motion.div>
     </motion.div>
