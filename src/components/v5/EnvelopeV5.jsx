@@ -292,14 +292,19 @@ export default function EnvelopeV5({ onOpen }) {
   function handleSealClick() {
     if (phase !== 'idle') return
     setPhase('peeling')
+    // Flap opens after seal peels
     setTimeout(() => setPhase('opening'), 550)
+    // Card flies up after flap fully opens (flap takes 1s)
+    setTimeout(() => setPhase('flyout'), 550 + 1000)
+    // Hand off to card view after card flies off
     setTimeout(() => {
       setPhase('done')
       onOpen()
-    }, 550 + 1200)
+    }, 550 + 1000 + 2300)
   }
 
-  const isOpening = phase === 'opening' || phase === 'done'
+  const isOpening = phase === 'opening' || phase === 'flyout' || phase === 'done'
+  const isFlyout = phase === 'flyout' || phase === 'done'
   const sealGone = phase !== 'idle'
 
   return (
@@ -307,7 +312,7 @@ export default function EnvelopeV5({ onOpen }) {
       className={styles.scene}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0, scale: 0.85, transition: { duration: 0.6 } }}
+      exit={{ opacity: 0, y: 60, transition: { duration: 0.5, ease: 'easeIn' } }}
     >
       {/* Soft ambient glow */}
       <div className={styles.ambientGlow} />
@@ -333,17 +338,15 @@ export default function EnvelopeV5({ onOpen }) {
           {/* Back face */}
           <div className={styles.envBack} />
 
-          {/* Card sliver sliding out */}
-          <AnimatePresence>
-            {isOpening && (
-              <motion.div
-                className={styles.cardSliver}
-                initial={{ y: 0, opacity: 0.85 }}
-                animate={{ y: -120, opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              />
-            )}
-          </AnimatePresence>
+          {/* Card — flies up off screen after flap opens */}
+          {isFlyout && (
+            <motion.div
+              className={styles.cardSliver}
+              initial={{ y: 0, opacity: 1 }}
+              animate={{ y: [0, '-25%', '-15%', '-15%', '-120vh'] }}
+              transition={{ duration: 2.2, times: [0, 0.3, 0.45, 0.57, 1], ease: 'easeInOut' }}
+            />
+          )}
 
           {/* Envelope face */}
           <div className={`${styles.envFace} ${envelopeStyle === 2 ? styles.envFaceE2 : envelopeStyle === 3 ? styles.envFaceE3 : ''}`}>
@@ -398,11 +401,11 @@ export default function EnvelopeV5({ onOpen }) {
           {/* Gold shimmer overlay */}
           <div className={`${styles.shimmerOverlay} ${envelopeStyle === 3 ? styles.shimmerOverlayE3 : ''}`} />
 
-          {/* Flap */}
+          {/* Flap — opens and stays open */}
           <motion.div
-            className={styles.flap}
-            animate={isOpening ? { rotateX: -180 } : { rotateX: 0 }}
-            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            className={`${styles.flap} ${isFlyout ? styles.flapBack : ''}`}
+            animate={isOpening ? { rotateX: 180 } : { rotateX: 0 }}
+            transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
           >
             <div className={styles.flapInner}>
               {envelopeStyle === 1 && <div className={styles.flapPattern} />}

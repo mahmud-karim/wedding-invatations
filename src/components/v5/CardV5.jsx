@@ -1,3 +1,4 @@
+import { useRef, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import styles from '../../styles/v5/CardV5.module.css'
 
@@ -56,28 +57,64 @@ function GoldDividerV4() {
   )
 }
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0, transition: { duration: 1.2, ease: 'easeOut' } },
+}
+
 const stagger = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.15, delayChildren: 0.3 } },
+  visible: { transition: { staggerChildren: 0.2, delayChildren: 0 } },
 }
-const fadeUp = {
-  hidden: { opacity: 0, y: 22 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
+
+function FadeItem({ children, className }) {
+  return (
+    <motion.div className={className} variants={fadeUp}>
+      {children}
+    </motion.div>
+  )
+}
+
+function slowScrollTo(container, targetEl, duration) {
+  const start = container.scrollTop
+  const targetTop = targetEl.offsetTop - container.clientHeight / 2 + targetEl.offsetHeight / 2 + 80
+  const distance = targetTop - start
+  const startTime = performance.now()
+  function ease(t) { return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t }
+  function step(now) {
+    const elapsed = Math.min((now - startTime) / duration, 1)
+    container.scrollTop = start + distance * ease(elapsed)
+    if (elapsed < 1) requestAnimationFrame(step)
+  }
+  requestAnimationFrame(step)
 }
 
 export default function CardV5() {
+  const overlayRef = useRef(null)
+  const namesRef = useRef(null)
+  const [scrollDone, setScrollDone] = useState(false)
+
+  useEffect(() => {
+    // After card lands, start scroll and fade simultaneously, both very slow
+    const timer = setTimeout(() => {
+      setScrollDone(true)
+      if (overlayRef.current && namesRef.current) {
+        slowScrollTo(overlayRef.current, namesRef.current, 3000)
+      }
+    }, 1600)
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
     <motion.div
       className={styles.overlay}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
+      ref={overlayRef}
     >
       <motion.div
         className={styles.card}
-        initial={{ scale: 0.15, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+        initial={{ y: '-100vh', opacity: 1 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 1.5, ease: [0.4, 0, 0.2, 1] }}
       >
         <div className={styles.cardShimmer} />
         <div className={styles.glowPulse} />
@@ -86,76 +123,66 @@ export default function CardV5() {
           className={styles.inner}
           variants={stagger}
           initial="hidden"
-          animate="visible"
+          animate={scrollDone ? 'visible' : 'hidden'}
         >
-          <motion.div variants={fadeUp}>
-            <CrescentMedallion />
-          </motion.div>
+          <FadeItem><CrescentMedallion /></FadeItem>
 
-          <motion.p variants={fadeUp} className={styles.bismillah}>
+          <FadeItem className={styles.bismillah}>
             بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
-          </motion.p>
+          </FadeItem>
 
-          <motion.p variants={fadeUp} className={styles.bismillahEn}>
+          <FadeItem className={styles.bismillahEn}>
             In the name of Allah, the Most Merciful, the Most Compassionate
-          </motion.p>
+          </FadeItem>
 
-          <motion.div variants={fadeUp}>
-            <MughalArch />
-          </motion.div>
+          <FadeItem><MughalArch /></FadeItem>
 
-          <motion.p variants={fadeUp} className={styles.intro}>
+          <FadeItem className={styles.intro}>
             With gratitude to Allah and joy in our hearts, we invite you to celebrate the
-          </motion.p>
+          </FadeItem>
 
-          <motion.h2 variants={fadeUp} className={styles.eventTitle}>
+          <FadeItem className={styles.eventTitle}>
             Wedding Reception
-          </motion.h2>
+          </FadeItem>
 
-          <motion.p variants={fadeUp} className={styles.ofText}>of</motion.p>
+          <FadeItem className={styles.ofText}>of</FadeItem>
 
-          <motion.h1 variants={fadeUp} className={styles.names}>
-            Mahmud
-            <span className={styles.amp}>&amp;</span>
-            Fariah
-          </motion.h1>
+          <div ref={namesRef}>
+            <FadeItem className={styles.names}>
+              Mahmud
+              <span className={styles.amp}>&amp;</span>
+              Fariah
+            </FadeItem>
+          </div>
 
-          <motion.div variants={fadeUp}>
-            <GoldDividerV4 />
-          </motion.div>
+          <FadeItem><GoldDividerV4 /></FadeItem>
 
-          <motion.div variants={fadeUp} className={styles.dateGrid}>
+          <FadeItem className={styles.dateGrid}>
             <span className={styles.dayLabel}>SUNDAY</span>
             <span className={styles.dayNum}>26</span>
             <span className={styles.timeLabel}>AT 6:30 PM</span>
             <span className={styles.monthYear} style={{ gridColumn: '1 / -1' }}>APRIL · 2026</span>
-          </motion.div>
+          </FadeItem>
 
-          <motion.p variants={fadeUp} className={styles.time}>
+          <FadeItem className={styles.time}>
             6:30 in the evening until 11:30
-          </motion.p>
+          </FadeItem>
 
-          <motion.div variants={fadeUp}>
-            <GoldDividerV4 />
-          </motion.div>
+          <FadeItem><GoldDividerV4 /></FadeItem>
 
-          <motion.div variants={fadeUp} className={styles.venue}>
+          <FadeItem className={styles.venue}>
             <p className={styles.venueName}>World's Fair Marina</p>
             <p className={styles.venueAddr}>Flushing Meadows Corona Park</p>
             <p className={styles.venueCity}>Queens, New York City</p>
-          </motion.div>
+          </FadeItem>
 
-          <motion.div variants={fadeUp}>
-            <GoldDividerV4 />
-          </motion.div>
+          <FadeItem><GoldDividerV4 /></FadeItem>
 
-          <motion.p variants={fadeUp} className={styles.closing}>
+          <FadeItem className={styles.closing}>
             Please join us for an evening of love, prayer, and celebration
-          </motion.p>
+          </FadeItem>
 
-          <motion.div variants={fadeUp}>
-            <CrescentMedallion />
-          </motion.div>
+          <FadeItem><CrescentMedallion /></FadeItem>
         </motion.div>
       </motion.div>
     </motion.div>
