@@ -1,0 +1,22 @@
+/* =============================================
+   V3 THEME — Floral Garden / Soft Blush
+   Misty Pearl · Antique Gold · Soft Pink
+   ============================================= */
+:root {
+  --v3-bg:          #DDD8D2;
+  --v3-bg-light:    #EDE9E4;
+  --v3-white:       #FDFAF6;
+  --v3-gold:        #C9A84C;
+  --v3-gold-light:  #E4CC7A;
+  --v3-gold-dark:   #8B7430;
+  --v3-pink:        #F0C8D0;
+  --v3-pink-deep:   #D4899A;
+  --v3-sage:        #B8C4B0;
+  --v3-text:        #3A2E28;
+  --v3-text-mid:    #6B5548;
+  --v3-text-light:  #9C8478;
+
+  --v3-font-heading: 'Playfair Display', serif;
+  --v3-font-body:    'EB Garamond', serif;
+  --v3-font-arabic:  'Noto Naskh Arabic', serif;
+}

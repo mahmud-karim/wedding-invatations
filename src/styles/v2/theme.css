@@ -1,0 +1,24 @@
+/* =============================================
+   V2 THEME — Luxury Desi Islamic
+   Deep Red · Antique Gold · Ivory
+   ============================================= */
+
+:root {
+  --v2-bg:           #0e0606;
+  --v2-bg-warm:      #1a0c08;
+  --v2-crimson:      #9B1B30;
+  --v2-crimson-deep: #7A0E22;
+  --v2-crimson-dark: #4a0a14;
+  --v2-gold:         #C9A84C;
+  --v2-gold-light:   #E4CC7A;
+  --v2-gold-dark:    #8B7430;
+  --v2-ivory:        #F5EDE0;
+  --v2-ivory-warm:   #EDE0CC;
+  --v2-ivory-dark:   #D4C8B0;
+  --v2-white:        #FEFCF8;
+  --v2-text-dark:    #2A1A12;
+
+  --v2-font-heading: 'Cormorant Garamond', serif;
+  --v2-font-body:    'EB Garamond', serif;
+  --v2-font-arabic:  'Noto Naskh Arabic', serif;
+}

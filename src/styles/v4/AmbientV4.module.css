@@ -1,0 +1,268 @@
+/* ── Spark burst ── */
+.sparkContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.spark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, #E4CC7A 0%, #C9952A 50%, transparent 100%);
+  filter: blur(0.5px);
+}
+
+/* ── Rising gold orbs (card scene) ── */
+.orbField {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 19;
+}
+
+.orb {
+  position: absolute;
+  bottom: -60px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%,
+    #E4CC7A 0%,
+    #C9952A 35%,
+    rgba(201, 149, 42, 0.28) 65%,
+    transparent 100%
+  );
+  filter: blur(6px);
+  animation: orbRise linear infinite both;
+  will-change: transform, opacity;
+}
+
+@keyframes orbRise {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.6);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--opacity-peak);
+  }
+  80% {
+    opacity: var(--opacity-peak);
+  }
+  100% {
+    transform: translateY(-105vh) translateX(var(--drift)) scale(1.1);
+    opacity: 0;
+  }
+}
+
+/* ── Dreamy floating particles ── */
+.dreamField {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 15;
+}
+
+/* Small twinkling motes */
+.mote {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(212, 178, 84, 0.9) 0%,
+    rgba(184, 134, 11, 0.4) 40%,
+    transparent 70%
+  );
+  animation: dreamFloat linear infinite both;
+  will-change: transform, opacity;
+}
+
+/* Larger soft glowing orbs */
+.dreamOrb {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(212, 178, 84, 0.15) 0%,
+    rgba(184, 134, 11, 0.06) 40%,
+    transparent 70%
+  );
+  filter: blur(12px);
+  animation: dreamDrift ease-in-out infinite both;
+  will-change: transform, opacity;
+}
+
+@keyframes dreamFloat {
+  0% {
+    transform: translate(0, 0) scale(var(--scale-start, 0.4));
+    opacity: 0;
+  }
+  15% {
+    opacity: var(--opacity-peak, 0.7);
+  }
+  50% {
+    opacity: var(--opacity-mid, 0.3);
+  }
+  85% {
+    opacity: var(--opacity-peak, 0.7);
+  }
+  100% {
+    transform: translate(var(--dx), var(--dy)) scale(var(--scale-end, 0.8));
+    opacity: 0;
+  }
+}
+
+@keyframes dreamDrift {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translate(var(--dx), calc(var(--dy) * 0.5)) scale(1.15);
+    opacity: var(--opacity-peak, 0.5);
+  }
+  50% {
+    transform: translate(calc(var(--dx) * 0.5), var(--dy)) scale(0.9);
+    opacity: 0.2;
+  }
+  75% {
+    transform: translate(calc(var(--dx) * -0.3), calc(var(--dy) * 0.3)) scale(1.1);
+    opacity: var(--opacity-peak, 0.5);
+  }
+}
+
+/* ── Shooting stars ── */
+.shootingStarField {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 14;
+}
+
+.shootingStar {
+  position: absolute;
+  width: var(--length, 60px);
+  height: 1.5px;
+  background: linear-gradient(to right, transparent 0%, rgba(228, 204, 122, 0.8) 40%, #E4CC7A 100%);
+  border-radius: 1px;
+  transform: rotate(var(--angle, -35deg));
+  animation: shootAcross linear infinite both;
+  will-change: transform, opacity;
+  filter: blur(0.3px);
+}
+
+.shootingStar::after {
+  content: '';
+  position: absolute;
+  right: -2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #FDFAF6;
+  box-shadow: 0 0 6px 2px rgba(228, 204, 122, 0.7);
+}
+
+@keyframes shootAcross {
+  0% {
+    transform: translate(0, 0) rotate(var(--angle, -35deg));
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(var(--travel-x, 300px), var(--travel-y, 200px)) rotate(var(--angle, -35deg));
+    opacity: 0;
+  }
+  100% {
+    transform: translate(var(--travel-x, 300px), var(--travel-y, 200px)) rotate(var(--angle, -35deg));
+    opacity: 0;
+  }
+}
+
+/* ── Gold firework bursts ── */
+.fireworkField {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 14;
+}
+
+.fireworkOrigin {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.fireworkSpark {
+  position: absolute;
+  width: var(--spark-size, 3px);
+  height: var(--spark-size, 3px);
+  border-radius: 50%;
+  background: radial-gradient(circle, #FDFAF6 0%, #E4CC7A 40%, rgba(184, 134, 11, 0.3) 100%);
+  animation: fireworkBurst ease-out infinite both;
+  will-change: transform, opacity;
+}
+
+.fireworkTrail {
+  position: absolute;
+  width: 2px;
+  height: var(--trail-length, 20px);
+  background: linear-gradient(to bottom, transparent, rgba(228, 204, 122, 0.6), #E4CC7A);
+  border-radius: 1px;
+  animation: riseAndFade ease-out infinite both;
+  will-change: transform, opacity;
+}
+
+@keyframes fireworkBurst {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  /* Wait for trail to rise */
+  30% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(var(--spark-dx), var(--spark-dy)) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes riseAndFade {
+  0% {
+    transform: translateY(80px) scaleY(0);
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.7;
+  }
+  25% {
+    transform: translateY(0) scaleY(1);
+    opacity: 0.9;
+  }
+  35% {
+    opacity: 0;
+    transform: translateY(0) scaleY(0.2);
+  }
+  100% {
+    opacity: 0;
+  }
+}

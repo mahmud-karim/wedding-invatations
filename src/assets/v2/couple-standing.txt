@@ -1,0 +1,11 @@
+A highly detailed, elegant digital illustration of a Muslim Bangladeshi bride and groom standing and facing each other, slightly turned inward toward one another. The couple is centered in the frame with equal space on both sides.
+
+Bride (on the left, facing right): wearing a rich deep red and gold bridal lehenga with heavy gold embroidery and zari work, a silk hijab draped elegantly framing her head with a sheer dupatta veil over the top, bridal gold jewelry including a maatha patti headpiece visible over the hijab, gold bangles and a necklace, hands gently clasped in front. IMPORTANT: the bride must have NO face — completely blank, featureless, and faceless. No eyes, no nose, no mouth, no facial features of any kind. The head and hijab are present but the face area is entirely empty. She is facing toward the groom.
+
+Groom (on the right, facing left): wearing a floor-length ivory and cream sherwani with intricate antique gold embroidery on the chest and collar, a traditional churidar pajama underneath, pointed juttis shoes. He is wearing a traditional Bangladeshi Muslim groom's headwear — an ivory and gold pagri (turban) with a sehra (decorative floral string veil) hanging down from the front of the turban. His skin tone is golden light brown, warm Bangladeshi complexion. IMPORTANT: the groom must have NO face — completely blank, featureless, and faceless. No eyes, no nose, no mouth, no facial features of any kind. He may have a suggestion of a beard silhouette shape but absolutely no facial details. He is facing toward the bride.
+
+Style: premium luxury wedding illustration, painterly digital art with soft watercolor textures, warm romantic lighting, soft glowing background glow behind the couple. The background must be fully transparent (PNG with alpha channel). The figures should be full body from head to toe, vertically composed, slightly separated with negative space between them. No cartoon style — must look premium, like a high-end wedding stationery illustration. Soft shadows under feet.
+
+CRITICAL: Both figures must be completely faceless. No facial features on either person whatsoever. This is intentional and required.
+
+Aspect ratio: 2:3 portrait (tall). Resolution: at least 1200x1800px. Transparent background. No text, no borders, no frames.

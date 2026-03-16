@@ -1,0 +1,39 @@
+.field {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 19; /* sits above the card overlay bg (20) but below the card itself (auto stacking) */
+}
+
+.orb {
+  position: absolute;
+  bottom: -60px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%,
+    #e8c870 0%,
+    #d4a843 35%,
+    rgba(212, 168, 67, 0.3) 65%,
+    transparent 100%
+  );
+  filter: blur(6px);
+  animation: riseUp linear infinite both;
+  will-change: transform, opacity;
+}
+
+@keyframes riseUp {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.6);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--opacity-peak);
+  }
+  80% {
+    opacity: var(--opacity-peak);
+  }
+  100% {
+    transform: translateY(-105vh) translateX(var(--drift)) scale(1.1);
+    opacity: 0;
+  }
+}

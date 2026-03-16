@@ -1,0 +1,54 @@
+.curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.chandeliers {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  z-index: 12;
+}
+
+.strips {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+}
+
+.stripWrap {
+  transform-origin: top center;
+  animation: sway 4s ease-in-out infinite alternate;
+  will-change: transform;
+  flex-shrink: 0;
+}
+
+/* Alternate direction on odd children */
+.stripWrap:nth-child(even) {
+  animation-direction: alternate-reverse;
+}
+
+/* Slightly different speed per group */
+.stripWrap:nth-child(3n)   { animation-duration: 4.4s; }
+.stripWrap:nth-child(3n+1) { animation-duration: 3.7s; }
+.stripWrap:nth-child(3n+2) { animation-duration: 4.1s; }
+
+@keyframes sway {
+  from { transform: rotate(-2.5deg); }
+  to   { transform: rotate(2.5deg); }
+}
+
+.strip {
+  display: block;
+  overflow: visible;
+}

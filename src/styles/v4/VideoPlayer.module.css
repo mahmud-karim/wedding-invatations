@@ -1,0 +1,87 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--v4-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* Vertical video card — matches card placement */
+.videoCard {
+  position: relative;
+  width: clamp(260px, 72vw, 400px);
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  border-radius: 3px;
+  border: 1.5px solid var(--v4-gold);
+  box-shadow:
+    0 0 0 1px rgba(201, 149, 42, 0.1),
+    0 8px 40px rgba(0, 0, 0, 0.7),
+    0 0 60px rgba(139, 26, 46, 0.15);
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Cinematic letterbox bars — inside the card */
+.barTop,
+.barBottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: #000;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.barTop {
+  top: 0;
+}
+
+.barBottom {
+  bottom: 0;
+}
+
+/* Radial vignette */
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 45%,
+    rgba(0, 0, 0, 0.3) 75%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+}
+
+/* Skip button — sits below the video card */
+.skipBtn {
+  background: rgba(201, 149, 42, 0.12);
+  border: 1px solid rgba(201, 149, 42, 0.4);
+  border-radius: 100px;
+  padding: 6px 20px;
+  color: rgba(228, 204, 122, 0.9);
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(0.8rem, 2.2vw, 0.95rem);
+  font-style: italic;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.skipBtn:hover {
+  background: rgba(201, 149, 42, 0.25);
+  border-color: rgba(201, 149, 42, 0.65);
+}

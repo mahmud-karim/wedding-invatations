@@ -1,0 +1,67 @@
+/* ── Warm floating particles (envelope scene bg) ── */
+.field {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.warmDot {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, #C9A84C 0%, rgba(201, 168, 76, 0.3) 60%, transparent 100%);
+  filter: blur(2px);
+  will-change: transform, opacity;
+  animation: drift linear infinite both;
+}
+
+@keyframes drift {
+  0% {
+    transform: translateX(0) translateY(0);
+    opacity: 0;
+  }
+  15% { opacity: var(--peak, 0.15); }
+  85% { opacity: var(--peak, 0.15); }
+  100% {
+    transform: translateX(var(--dx)) translateY(var(--dy));
+    opacity: 0;
+  }
+}
+
+/* ── Gold orbs (card scene bg) ── */
+.orbField {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 19;
+}
+
+.goldOrb {
+  position: absolute;
+  bottom: -50px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%,
+    #E4CC7A 0%,
+    #C9A84C 30%,
+    rgba(201, 168, 76, 0.25) 65%,
+    transparent 100%
+  );
+  filter: blur(5px);
+  will-change: transform, opacity;
+  animation: riseOrb linear infinite both;
+}
+
+@keyframes riseOrb {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.5);
+    opacity: 0;
+  }
+  12% { opacity: var(--peak); }
+  78% { opacity: var(--peak); }
+  100% {
+    transform: translateY(-110vh) translateX(var(--drift)) scale(1.15);
+    opacity: 0;
+  }
+}

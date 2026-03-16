@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import GlowOrbs from './GlowOrbs'
 import styles from '../styles/InvitationCard.module.css'
 
 // Arabesque top/bottom border SVG
@@ -76,6 +77,7 @@ export default function InvitationCard() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
     >
+      <GlowOrbs />
       <motion.div
         className={styles.card}
         initial={{ scale: 0.15, opacity: 0 }}

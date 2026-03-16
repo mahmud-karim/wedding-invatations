@@ -1,0 +1,17 @@
+:root {
+  --v4-cream: #FAF6EF;
+  --v4-cream-warm: #EDE5D4;
+  --v4-gold: #B8860B;
+  --v4-gold-light: #D4B254;
+  --v4-gold-dim: rgba(184, 134, 11, 0.5);
+  --v4-red: #9B2335;
+  --v4-red-dark: #7A1A2A;
+  --v4-text: #3A2A1A;
+  --v4-text-mid: #8A6E4A;
+  --v4-white: #FFFFFF;
+  --v4-bg: #4a1020;
+  --v4-bg-warm: #5c1828;
+  --v4-font-heading: 'Cormorant Garamond', 'EB Garamond', serif;
+  --v4-font-body: 'EB Garamond', serif;
+  --v4-font-arabic: 'Noto Naskh Arabic', serif;
+}
