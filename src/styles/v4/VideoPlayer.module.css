@@ -2,7 +2,7 @@
   position: fixed;
   inset: 0;
   z-index: 50;
-  background: var(--v4-bg);
+  background: transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,25 +10,22 @@
   gap: 16px;
 }
 
-/* Vertical video card — matches card placement */
+/* Vertical video card — fills full viewport height, no distortion */
 .videoCard {
   position: relative;
-  width: clamp(260px, 72vw, 400px);
-  aspect-ratio: 9 / 16;
+  height: 100vh;
   overflow: hidden;
-  border-radius: 3px;
-  border: 1.5px solid var(--v4-gold);
+  border-radius: 0;
+  border-left: 1.5px solid var(--v4-gold);
+  border-right: 1.5px solid var(--v4-gold);
   box-shadow:
-    0 0 0 1px rgba(201, 149, 42, 0.1),
-    0 8px 40px rgba(0, 0, 0, 0.7),
     0 0 60px rgba(139, 26, 46, 0.15);
 }
 
 .video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
+  display: block;
   height: 100%;
+  width: 100%;
   object-fit: cover;
 }
 

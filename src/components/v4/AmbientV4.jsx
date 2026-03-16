@@ -1,5 +1,5 @@
-import { useMemo } from 'react'
-import { motion } from 'framer-motion'
+import { useMemo, useState, useEffect, useCallback } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import styles from '../../styles/v4/AmbientV4.module.css'
 
 /* Gold spark burst — radiates from envelope center when seal is tapped */
@@ -40,170 +40,233 @@ export function SparkBurst({ visible }) {
   )
 }
 
-/* Dreamy floating particles — magical gold dust + soft orbs */
-export function DreamyParticles({ count = 30 }) {
-  const particles = useMemo(() => {
-    const motes = Array.from({ length: count }, (_, i) => ({
-      id: `m${i}`,
-      type: 'mote',
+/* ══════════════════════════════════════
+   Dreamy Background — 4 layered effects
+   ══════════════════════════════════════ */
+
+function Fireflies() {
+  const items = useMemo(() =>
+    Array.from({ length: 20 }, (_, i) => ({
+      id: i,
       left: Math.random() * 100,
       top: Math.random() * 100,
-      size: 2 + Math.random() * 4,
-      duration: 6 + Math.random() * 10,
+      size: 2 + Math.random() * 3,
+      duration: 3 + Math.random() * 3,
+      delay: Math.random() * 6,
+      wx: -12 + Math.random() * 24,
+      wy: -12 + Math.random() * 24,
+      opacityPeak: 0.45 + Math.random() * 0.35,
+      opacityMid: 0.15 + Math.random() * 0.2,
+    })), [])
+
+  return items.map(f => (
+    <span
+      key={f.id}
+      className={styles.firefly}
+      style={{
+        left: `${f.left}%`,
+        top: `${f.top}%`,
+        width: f.size,
+        height: f.size,
+        '--wx': `${f.wx}px`,
+        '--wy': `${f.wy}px`,
+        '--opacity-peak': f.opacityPeak,
+        '--opacity-mid': f.opacityMid,
+        animationDuration: `${f.duration}s`,
+        animationDelay: `${f.delay}s`,
+      }}
+    />
+  ))
+}
+
+function FallingDust() {
+  const items = useMemo(() =>
+    Array.from({ length: 25 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      size: 1 + Math.random() * 2,
+      duration: 8 + Math.random() * 8,
       delay: Math.random() * 12,
-      dx: (-80 + Math.random() * 160),
-      dy: (-80 + Math.random() * 160),
-      opacityPeak: 0.4 + Math.random() * 0.5,
-      opacityMid: 0.1 + Math.random() * 0.2,
-      scaleStart: 0.3 + Math.random() * 0.4,
-      scaleEnd: 0.6 + Math.random() * 0.5,
-    }))
+      sway: -35 + Math.random() * 70,
+      opacityPeak: 0.35 + Math.random() * 0.35,
+    })), [])
 
-    const orbs = Array.from({ length: 6 }, (_, i) => ({
-      id: `d${i}`,
-      type: 'dreamOrb',
-      left: 10 + Math.random() * 80,
-      top: 10 + Math.random() * 80,
-      size: 40 + Math.random() * 80,
-      duration: 12 + Math.random() * 10,
-      delay: Math.random() * 8,
-      dx: (-40 + Math.random() * 80),
-      dy: (-40 + Math.random() * 80),
-      opacityPeak: 0.2 + Math.random() * 0.25,
-    }))
+  return items.map(d => (
+    <span
+      key={d.id}
+      className={styles.dustSpeck}
+      style={{
+        left: `${d.left}%`,
+        width: d.size,
+        height: d.size,
+        '--sway': `${d.sway}px`,
+        '--opacity-peak': d.opacityPeak,
+        animationDuration: `${d.duration}s`,
+        animationDelay: `${d.delay}s`,
+      }}
+    />
+  ))
+}
 
-    return [...motes, ...orbs]
-  }, [count])
+function BokehOrbs() {
+  const items = useMemo(() =>
+    Array.from({ length: 8 }, (_, i) => ({
+      id: i,
+      left: 5 + Math.random() * 90,
+      top: 5 + Math.random() * 90,
+      size: 25 + Math.random() * 65,
+      blur: 10 + Math.random() * 8,
+      duration: 15 + Math.random() * 10,
+      delay: Math.random() * 10,
+      dx1: -30 + Math.random() * 60,
+      dy1: -30 + Math.random() * 60,
+      dx2: -25 + Math.random() * 50,
+      dy2: -25 + Math.random() * 50,
+      dx3: -20 + Math.random() * 40,
+      dy3: -20 + Math.random() * 40,
+      opacityPeak: 0.12 + Math.random() * 0.18,
+      opacityLo: 0.05 + Math.random() * 0.08,
+    })), [])
 
+  return items.map(b => (
+    <span
+      key={b.id}
+      className={styles.bokeh}
+      style={{
+        left: `${b.left}%`,
+        top: `${b.top}%`,
+        width: b.size,
+        height: b.size,
+        '--blur': `${b.blur}px`,
+        '--dx1': `${b.dx1}px`,
+        '--dy1': `${b.dy1}px`,
+        '--dx2': `${b.dx2}px`,
+        '--dy2': `${b.dy2}px`,
+        '--dx3': `${b.dx3}px`,
+        '--dy3': `${b.dy3}px`,
+        '--opacity-peak': b.opacityPeak,
+        '--opacity-lo': b.opacityLo,
+        animationDuration: `${b.duration}s`,
+        animationDelay: `${b.delay}s`,
+      }}
+    />
+  ))
+}
+
+function EmberWisps() {
+  const items = useMemo(() =>
+    Array.from({ length: 15 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      size: 2 + Math.random() * 2,
+      duration: 7 + Math.random() * 7,
+      delay: Math.random() * 10,
+      wave1: -18 + Math.random() * 36,
+      wave2: -14 + Math.random() * 28,
+      opacityPeak: 0.4 + Math.random() * 0.3,
+    })), [])
+
+  return items.map(e => (
+    <span
+      key={e.id}
+      className={styles.ember}
+      style={{
+        left: `${e.left}%`,
+        width: e.size,
+        height: e.size,
+        '--wave1': `${e.wave1}px`,
+        '--wave2': `${e.wave2}px`,
+        '--opacity-peak': e.opacityPeak,
+        animationDuration: `${e.duration}s`,
+        animationDelay: `${e.delay}s`,
+      }}
+    />
+  ))
+}
+
+/* ── Cursor glow + click sparkles ── */
+export function CursorGlow() {
+  const [pos, setPos] = useState({ x: -200, y: -200 })
+  const [clicks, setClicks] = useState([])
+
+  useEffect(() => {
+    function onMove(e) {
+      setPos({ x: e.clientX, y: e.clientY })
+    }
+    window.addEventListener('mousemove', onMove)
+    return () => window.removeEventListener('mousemove', onMove)
+  }, [])
+
+  const handleClick = useCallback((e) => {
+    const id = Date.now()
+    const x = e.clientX
+    const y = e.clientY
+    const sparks = Array.from({ length: 8 }, (_, i) => {
+      const angle = (i / 8) * 360 + Math.random() * 30
+      const rad = (angle * Math.PI) / 180
+      const dist = 20 + Math.random() * 35
+      return {
+        id: i,
+        dx: Math.cos(rad) * dist,
+        dy: Math.sin(rad) * dist,
+        size: 2 + Math.random() * 3,
+        duration: 0.4 + Math.random() * 0.3,
+      }
+    })
+    setClicks(prev => [...prev, { id, x, y, sparks }])
+    setTimeout(() => setClicks(prev => prev.filter(c => c.id !== id)), 900)
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener('click', handleClick)
+    return () => window.removeEventListener('click', handleClick)
+  }, [handleClick])
+
+  return (
+    <>
+      {/* Glow following cursor */}
+      <div
+        className={styles.cursorGlow}
+        style={{ left: pos.x, top: pos.y }}
+      />
+
+      {/* Click sparkles */}
+      <AnimatePresence>
+        {clicks.map(click => (
+          <div key={click.id}>
+            {/* Expanding ring */}
+            <motion.div
+              className={styles.clickRing}
+              style={{ left: click.x, top: click.y }}
+              initial={{ width: 0, height: 0, opacity: 0.7 }}
+              animate={{ width: 50, height: 50, opacity: 0 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+            />
+            {/* Radiating sparks */}
+            {click.sparks.map(s => (
+              <motion.span
+                key={s.id}
+                className={styles.clickSparkle}
+                style={{ left: click.x, top: click.y, width: s.size, height: s.size }}
+                initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+                animate={{ x: s.dx, y: s.dy, opacity: 0, scale: 0 }}
+                transition={{ duration: s.duration, ease: 'easeOut' }}
+              />
+            ))}
+          </div>
+        ))}
+      </AnimatePresence>
+    </>
+  )
+}
+
+export function DreamyBackground({ fireflies = true, dust = true, bokeh = true, embers = true }) {
   return (
     <div className={styles.dreamField} aria-hidden="true">
-      {particles.map(p => (
-        <span
-          key={p.id}
-          className={p.type === 'mote' ? styles.mote : styles.dreamOrb}
-          style={{
-            left: `${p.left}%`,
-            top: `${p.top}%`,
-            width: p.size,
-            height: p.size,
-            '--dx': `${p.dx}px`,
-            '--dy': `${p.dy}px`,
-            '--opacity-peak': p.opacityPeak,
-            '--opacity-mid': p.opacityMid || 0.15,
-            '--scale-start': p.scaleStart || 1,
-            '--scale-end': p.scaleEnd || 1,
-            animationDuration: `${p.duration}s`,
-            animationDelay: `${p.delay}s`,
-          }}
-        />
-      ))}
-    </div>
-  )
-}
-
-/* Shooting stars — gold streaks across the sky */
-export function ShootingStars({ count = 5 }) {
-  const stars = useMemo(() =>
-    Array.from({ length: count }, (_, i) => {
-      const angle = -25 - Math.random() * 30 // angled downward-right
-      const rad = (angle * Math.PI) / 180
-      const travelDist = 250 + Math.random() * 350
-      return {
-        id: i,
-        left: Math.random() * 80,
-        top: 5 + Math.random() * 45,
-        length: 40 + Math.random() * 60,
-        angle,
-        travelX: Math.cos(rad) * travelDist,
-        travelY: -Math.sin(rad) * travelDist,
-        duration: 6 + Math.random() * 8,
-        delay: i * 3 + Math.random() * 5,
-      }
-    }), [count])
-
-  return (
-    <div className={styles.shootingStarField} aria-hidden="true">
-      {stars.map(s => (
-        <span
-          key={s.id}
-          className={styles.shootingStar}
-          style={{
-            left: `${s.left}%`,
-            top: `${s.top}%`,
-            '--length': `${s.length}px`,
-            '--angle': `${s.angle}deg`,
-            '--travel-x': `${s.travelX}px`,
-            '--travel-y': `${s.travelY}px`,
-            animationDuration: `${s.duration}s`,
-            animationDelay: `${s.delay}s`,
-          }}
-        />
-      ))}
-    </div>
-  )
-}
-
-/* Gold firework bursts — periodic explosions at random positions */
-export function GoldFireworks({ count = 3 }) {
-  const fireworks = useMemo(() =>
-    Array.from({ length: count }, (_, i) => {
-      const x = 15 + Math.random() * 70
-      const y = 10 + Math.random() * 50
-      const sparkCount = 10 + Math.floor(Math.random() * 8)
-      const sparks = Array.from({ length: sparkCount }, (_, j) => {
-        const angle = (j / sparkCount) * 360 + Math.random() * 20
-        const rad = (angle * Math.PI) / 180
-        const dist = 25 + Math.random() * 45
-        return {
-          id: j,
-          dx: Math.cos(rad) * dist,
-          dy: Math.sin(rad) * dist,
-          size: 2 + Math.random() * 3,
-        }
-      })
-      return {
-        id: i,
-        x, y,
-        sparks,
-        trailLength: 15 + Math.random() * 20,
-        duration: 8 + Math.random() * 6,
-        delay: i * 4 + Math.random() * 3,
-      }
-    }), [count])
-
-  return (
-    <div className={styles.fireworkField} aria-hidden="true">
-      {fireworks.map(fw => (
-        <div
-          key={fw.id}
-          className={styles.fireworkOrigin}
-          style={{ left: `${fw.x}%`, top: `${fw.y}%` }}
-        >
-          {/* Rising trail */}
-          <span
-            className={styles.fireworkTrail}
-            style={{
-              '--trail-length': `${fw.trailLength}px`,
-              animationDuration: `${fw.duration}s`,
-              animationDelay: `${fw.delay}s`,
-            }}
-          />
-          {/* Burst sparks */}
-          {fw.sparks.map(sp => (
-            <span
-              key={sp.id}
-              className={styles.fireworkSpark}
-              style={{
-                '--spark-dx': `${sp.dx}px`,
-                '--spark-dy': `${sp.dy}px`,
-                '--spark-size': `${sp.size}px`,
-                animationDuration: `${fw.duration}s`,
-                animationDelay: `${fw.delay}s`,
-              }}
-            />
-          ))}
-        </div>
-      ))}
+      {fireflies && <Fireflies />}
+      {dust && <FallingDust />}
+      {bokeh && <BokehOrbs />}
+      {embers && <EmberWisps />}
     </div>
   )
 }

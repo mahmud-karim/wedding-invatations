@@ -20,7 +20,7 @@ import './styles/v3/theme.css'
 // V4 components
 import EnvelopeV4 from './components/v4/EnvelopeV4'
 import CardV4 from './components/v4/CardV4'
-import { GoldOrbsV4, DreamyParticles } from './components/v4/AmbientV4'
+import { GoldOrbsV4, DreamyBackground, CursorGlow } from './components/v4/AmbientV4'
 import bgMusic from './assets/v4/background-music.mp3'
 import './styles/v4/theme.css'
 
@@ -80,16 +80,28 @@ export default function App() {
   })
 
   const [stage, setStage] = useState('envelope')
+  const [v4Effects, setV4Effects] = useState({ fireflies: true, dust: true, bokeh: true, embers: true })
+  const [muted, setMuted] = useState(false)
+  const [musicPlaying, setMusicPlaying] = useState(false)
   const audioRef = useRef(null)
 
   function startV4Music() {
     if (!audioRef.current) {
       const audio = new Audio(bgMusic)
       audio.loop = true
-      audio.volume = 1
+      audio.volume = muted ? 0 : 1
       audio.play().catch(() => {})
       audioRef.current = audio
+      setMusicPlaying(true)
     }
+  }
+
+  function toggleMute() {
+    setMuted(prev => {
+      const next = !prev
+      if (audioRef.current) audioRef.current.volume = next ? 0 : 1
+      return next
+    })
   }
 
   useEffect(() => {
@@ -97,6 +109,7 @@ export default function App() {
       audioRef.current.pause()
       audioRef.current.src = ''
       audioRef.current = null
+      setMusicPlaying(false)
     }
   }, [variation])
 
@@ -110,6 +123,82 @@ export default function App() {
   return (
     <>
       <VariationToggle current={variation} onChange={handleVariationChange} />
+
+      {variation === 4 && musicPlaying && (
+        <button
+          onClick={toggleMute}
+          aria-label={muted ? 'Unmute music' : 'Mute music'}
+          style={{
+            position: 'fixed',
+            bottom: '20px',
+            right: '20px',
+            zIndex: 100,
+            background: 'rgba(20, 6, 6, 0.6)',
+            border: '1px solid rgba(212, 168, 67, 0.35)',
+            borderRadius: '50%',
+            width: '40px',
+            height: '40px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            backdropFilter: 'blur(8px)',
+            transition: 'background 0.2s',
+          }}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(212, 168, 67, 0.85)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            {muted ? (
+              <>
+                <path d="M11 5L6 9H2v6h4l5 4V5z" />
+                <line x1="23" y1="9" x2="17" y2="15" />
+                <line x1="17" y1="9" x2="23" y2="15" />
+              </>
+            ) : (
+              <>
+                <path d="M11 5L6 9H2v6h4l5 4V5z" />
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+              </>
+            )}
+          </svg>
+        </button>
+      )}
+
+      {variation === 4 && (
+        <div style={{
+          position: 'fixed',
+          top: '52px',
+          right: '16px',
+          zIndex: 100,
+          display: 'flex',
+          gap: '4px',
+        }}>
+          {['fireflies', 'dust', 'bokeh', 'embers'].map(key => (
+            <button
+              key={key}
+              onClick={() => setV4Effects(prev => ({ ...prev, [key]: !prev[key] }))}
+              style={{
+                background: v4Effects[key]
+                  ? 'rgba(212, 168, 67, 0.85)'
+                  : 'rgba(20, 6, 6, 0.6)',
+                color: v4Effects[key] ? '#2a1a12' : 'rgba(212, 168, 67, 0.6)',
+                border: `1px solid ${v4Effects[key] ? '#d4a843' : 'rgba(212,168,67,0.25)'}`,
+                borderRadius: '3px',
+                padding: '3px 8px',
+                fontSize: '0.6rem',
+                fontFamily: 'EB Garamond, serif',
+                letterSpacing: '0.05em',
+                cursor: 'pointer',
+                backdropFilter: 'blur(8px)',
+                transition: 'background 0.2s, color 0.2s',
+                textTransform: 'capitalize',
+              }}
+            >
+              {key}
+            </button>
+          ))}
+        </div>
+      )}
 
       <AnimatePresence mode="wait">
         {variation === 1 && (
@@ -152,7 +241,13 @@ export default function App() {
 
         {variation === 4 && (
           <motion.div key="v4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
-            <DreamyParticles count={30} />
+            <CursorGlow />
+            <DreamyBackground
+              fireflies={v4Effects.fireflies}
+              dust={v4Effects.dust}
+              bokeh={v4Effects.bokeh}
+              embers={v4Effects.embers}
+            />
             <AnimatePresence mode="wait">
               {stage === 'envelope' && (
                 <EnvelopeV4 key="env4" onOpen={() => setStage('card')} onSealBreak={startV4Music} />
