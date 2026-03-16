@@ -82,13 +82,34 @@ function VariationToggle({ current, onChange }) {
 export default function App() {
   const [variation, setVariation] = useState(() => {
     const saved = localStorage.getItem('weddingVariation')
-    return saved ? Number(saved) : 1
+    return saved ? Number(saved) : 5
   })
 
   const [stage, setStage] = useState('envelope')
   const [muted, setMuted] = useState(false)
   const [musicPlaying, setMusicPlaying] = useState(false)
+  const [showVersionToggle, setShowVersionToggle] = useState(false)
   const audioRef = useRef(null)
+  const longPressTimer = useRef(null)
+
+  useEffect(() => {
+    function startLongPress() {
+      longPressTimer.current = setTimeout(() => setShowVersionToggle(v => !v), 10000)
+    }
+    function cancelLongPress() {
+      clearTimeout(longPressTimer.current)
+    }
+    document.addEventListener('mousedown', startLongPress)
+    document.addEventListener('mouseup', cancelLongPress)
+    document.addEventListener('touchstart', startLongPress)
+    document.addEventListener('touchend', cancelLongPress)
+    return () => {
+      document.removeEventListener('mousedown', startLongPress)
+      document.removeEventListener('mouseup', cancelLongPress)
+      document.removeEventListener('touchstart', startLongPress)
+      document.removeEventListener('touchend', cancelLongPress)
+    }
+  }, [])
 
   function startV4Music() {
     if (!audioRef.current) {
@@ -127,7 +148,7 @@ export default function App() {
 
   return (
     <>
-      <VariationToggle current={variation} onChange={handleVariationChange} />
+      {showVersionToggle && <VariationToggle current={variation} onChange={handleVariationChange} />}
 
       {variation === 4 && musicPlaying && (
         <button
