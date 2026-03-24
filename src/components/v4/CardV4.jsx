@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import RsvpForm from '../RsvpForm'
 import styles from '../../styles/v4/CardV4.module.css'
 
 /* ── Crescent & Star medallion — ties to wax seal motif ── */
@@ -159,6 +160,14 @@ export default function CardV4() {
           <motion.p variants={fadeUp} className={styles.closing}>
             Please join us for an evening of love, prayer, and celebration
           </motion.p>
+
+          <motion.div variants={fadeUp}>
+            <GoldDividerV4 />
+          </motion.div>
+
+          <motion.div variants={fadeUp}>
+            <RsvpForm styles={styles} />
+          </motion.div>
 
           <motion.div variants={fadeUp}>
             <CrescentMedallion />

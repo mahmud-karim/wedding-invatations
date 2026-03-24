@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import GlowOrbs from './GlowOrbs'
+import RsvpForm from './RsvpForm'
 import styles from '../styles/InvitationCard.module.css'
 
 // Arabesque top/bottom border SVG
@@ -153,6 +154,10 @@ export default function InvitationCard() {
           {/* Bottom arabesque border */}
           <motion.div variants={itemVariants}>
             <ArabesqueBorder flip />
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <RsvpForm styles={styles} />
           </motion.div>
 
           {/* Closing du'a */}

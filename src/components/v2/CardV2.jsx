@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import CoupleArt from './CoupleArt'
+import RsvpForm from '../RsvpForm'
 import styles from '../../styles/v2/CardV2.module.css'
 
 /* ── Eight-point star medallion ── */
@@ -193,6 +194,14 @@ export default function CardV2() {
           <motion.p variants={fadeUp} className={styles.closing}>
             Please join us for an evening of love, prayer, and celebration
           </motion.p>
+
+          <motion.div variants={fadeUp}>
+            <GoldDividerV2 />
+          </motion.div>
+
+          <motion.div variants={fadeUp}>
+            <RsvpForm styles={styles} />
+          </motion.div>
 
           {/* Bottom medallion */}
           <motion.div variants={fadeUp}>

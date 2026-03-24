@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import RsvpForm from '../RsvpForm'
 import styles from '../../styles/v5/CardV5.module.css'
 
 /* ── Crescent & Star medallion ── */
@@ -92,6 +93,7 @@ function slowScrollTo(container, targetEl, duration) {
 export default function CardV5() {
   const overlayRef = useRef(null)
   const namesRef = useRef(null)
+  const rsvpRef = useRef(null)
   const [scrollDone, setScrollDone] = useState(false)
 
   useEffect(() => {
@@ -103,7 +105,18 @@ export default function CardV5() {
         slowScrollTo(overlayRef.current, namesRef.current, 3000)
       }
     }, 1600)
-    return () => clearTimeout(timer)
+
+    // Auto-scroll to RSVP after 15 seconds
+    const rsvpTimer = setTimeout(() => {
+      if (overlayRef.current && rsvpRef.current) {
+        slowScrollTo(overlayRef.current, rsvpRef.current, 2000)
+      }
+    }, 15000)
+
+    return () => {
+      clearTimeout(timer)
+      clearTimeout(rsvpTimer)
+    }
   }, [])
 
   return (
@@ -176,6 +189,14 @@ export default function CardV5() {
 
           <FadeItem className={styles.closing}>
             Please join us for an evening of love, prayer, and celebration
+          </FadeItem>
+
+          <FadeItem><GoldDividerV4 /></FadeItem>
+
+          <FadeItem>
+            <div ref={rsvpRef}>
+              <RsvpForm styles={styles} />
+            </div>
           </FadeItem>
 
           <FadeItem><CrescentMedallion /></FadeItem>

@@ -277,3 +277,200 @@
   max-width: 320px;
   line-height: 1.6;
 }
+
+/* ── RSVP Form ── */
+.rsvpForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 340px;
+  padding: 28px 24px;
+  border: 1px solid rgba(184, 134, 11, 0.3);
+  border-radius: 3px;
+  background: rgba(184, 134, 11, 0.04);
+}
+
+.rsvpHeading {
+  font-family: var(--v4-font-heading);
+  font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+  color: var(--v4-gold);
+  letter-spacing: 0.2em;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.rsvpDeadline {
+  font-family: var(--v4-font-body);
+  font-size: 0.8rem;
+  color: rgba(184, 134, 11, 0.65);
+  text-align: center;
+  letter-spacing: 0.08em;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.rsvpLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--v4-font-body);
+  font-size: clamp(0.72rem, 2vw, 0.82rem);
+  color: var(--v4-text-mid);
+  letter-spacing: 0.08em;
+  text-align: left;
+}
+
+.rsvpOptional {
+  opacity: 0.6;
+  font-style: italic;
+}
+
+.rsvpInput,
+.rsvpTextarea {
+  font-family: var(--v4-font-body);
+  font-size: clamp(0.82rem, 2.2vw, 0.92rem);
+  color: var(--v4-text);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(184, 134, 11, 0.3);
+  border-radius: 2px;
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color 0.3s;
+  margin-top: 6px;
+}
+
+.rsvpInput:focus,
+.rsvpTextarea:focus {
+  border-color: var(--v4-gold);
+}
+
+.rsvpTextarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.rsvpFieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rsvpLegend {
+  font-family: var(--v4-font-body);
+  font-size: clamp(0.72rem, 2vw, 0.82rem);
+  color: var(--v4-text-mid);
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.rsvpRadioGroup {
+  display: flex;
+  gap: 10px;
+}
+
+.rsvpRadioInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.rsvpRadioLabel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 8px;
+  font-family: var(--v4-font-body);
+  font-size: clamp(0.72rem, 2vw, 0.82rem);
+  color: var(--v4-text-mid);
+  letter-spacing: 0.06em;
+  border: 1px solid rgba(184, 134, 11, 0.3);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: center;
+}
+
+.rsvpRadioLabel:hover {
+  border-color: var(--v4-gold);
+}
+
+.rsvpRadioActive {
+  background: rgba(184, 134, 11, 0.12);
+  border-color: var(--v4-gold);
+  color: var(--v4-text);
+}
+
+.rsvpButton {
+  font-family: var(--v4-font-heading);
+  font-size: clamp(0.85rem, 2.4vw, 0.95rem);
+  color: var(--v4-gold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1.5px solid var(--v4-gold);
+  border-radius: 2px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 4px;
+}
+
+.rsvpButton:hover {
+  background: rgba(184, 134, 11, 0.1);
+}
+
+.rsvpThankYou {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 28px 24px;
+  border: 1px solid rgba(184, 134, 11, 0.3);
+  border-radius: 3px;
+  background: rgba(184, 134, 11, 0.04);
+  max-width: 340px;
+  width: 100%;
+}
+
+.rsvpThankYouTitle {
+  font-family: var(--v4-font-heading);
+  font-size: clamp(1.3rem, 4vw, 1.8rem);
+  color: var(--v4-gold);
+  letter-spacing: 0.1em;
+}
+
+.rsvpThankYouText {
+  font-family: var(--v4-font-body);
+  font-size: clamp(0.78rem, 2.2vw, 0.9rem);
+  font-style: italic;
+  color: var(--v4-text-mid);
+  letter-spacing: 0.06em;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* ── Validation errors ── */
+.rsvpError {
+  color: #e07070;
+  font-size: 0.75rem;
+  font-family: var(--v4-font-body);
+  font-style: italic;
+  margin-top: 4px;
+  letter-spacing: 0.03em;
+}
+
+.rsvpInputError {
+  border-color: #e07070 !important;
+}
+
+.rsvpFieldsetError {
+  border-color: #e07070 !important;
+}
+
+.rsvpRadioError {
+  border-color: #e07070 !important;
+  color: #e07070 !important;
+}

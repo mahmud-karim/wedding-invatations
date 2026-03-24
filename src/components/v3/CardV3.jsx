@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import RsvpForm from '../RsvpForm'
 import styles from '../../styles/v3/CardV3.module.css'
 
 /* Gold divider */
@@ -133,6 +134,14 @@ export default function CardV3() {
               <p className={styles.venueName}>World's Fair Marina</p>
               <p className={styles.venueAddr}>Flushing Meadows Corona Park</p>
               <p className={styles.venueCity}>Queens, New York City</p>
+            </motion.div>
+
+            <motion.div variants={fadeUp}>
+              <Divider />
+            </motion.div>
+
+            <motion.div variants={fadeUp}>
+              <RsvpForm styles={styles} />
             </motion.div>
 
             {/* Bottom ornament */}
