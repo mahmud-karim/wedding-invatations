@@ -300,6 +300,16 @@
   margin-bottom: 4px;
 }
 
+.rsvpDeadline {
+  font-family: var(--v4-font-body);
+  font-size: 0.8rem;
+  color: rgba(184, 134, 11, 0.65);
+  text-align: center;
+  letter-spacing: 0.08em;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
 .rsvpLabel {
   display: flex;
   flex-direction: column;
@@ -327,6 +337,7 @@
   padding: 10px 12px;
   outline: none;
   transition: border-color 0.3s;
+  margin-top: 6px;
 }
 
 .rsvpInput:focus,
@@ -439,4 +450,27 @@
   letter-spacing: 0.06em;
   text-align: center;
   line-height: 1.6;
+}
+
+/* ── Validation errors ── */
+.rsvpError {
+  color: #e07070;
+  font-size: 0.75rem;
+  font-family: var(--v4-font-body);
+  font-style: italic;
+  margin-top: 4px;
+  letter-spacing: 0.03em;
+}
+
+.rsvpInputError {
+  border-color: #e07070 !important;
+}
+
+.rsvpFieldsetError {
+  border-color: #e07070 !important;
+}
+
+.rsvpRadioError {
+  border-color: #e07070 !important;
+  color: #e07070 !important;
 }

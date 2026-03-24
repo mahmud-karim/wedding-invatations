@@ -11,6 +11,16 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- Hidden form for Netlify form detection (React renders the real form via JS) -->
+    <form name="rsvp" data-netlify="true" hidden>
+      <input type="hidden" name="form-name" value="rsvp" />
+      <input type="text" name="name" />
+      <input type="radio" name="attending" value="yes" />
+      <input type="radio" name="attending" value="no" />
+      <input type="number" name="guests" />
+      <textarea name="guest_names"></textarea>
+      <textarea name="message"></textarea>
+    </form>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

@@ -81,8 +81,7 @@ function VariationToggle({ current, onChange }) {
 
 export default function App() {
   const [variation, setVariation] = useState(() => {
-    const saved = localStorage.getItem('weddingVariation')
-    return saved ? Number(saved) : 5
+    return 5
   })
 
   const [stage, setStage] = useState('envelope')
@@ -143,7 +142,7 @@ export default function App() {
     if (v === variation) return
     setVariation(v)
     setStage('envelope')
-    localStorage.setItem('weddingVariation', v)
+    // localStorage.setItem('weddingVariation', v)
   }
 
   return (

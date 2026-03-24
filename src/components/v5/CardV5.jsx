@@ -93,6 +93,7 @@ function slowScrollTo(container, targetEl, duration) {
 export default function CardV5() {
   const overlayRef = useRef(null)
   const namesRef = useRef(null)
+  const rsvpRef = useRef(null)
   const [scrollDone, setScrollDone] = useState(false)
 
   useEffect(() => {
@@ -104,7 +105,18 @@ export default function CardV5() {
         slowScrollTo(overlayRef.current, namesRef.current, 3000)
       }
     }, 1600)
-    return () => clearTimeout(timer)
+
+    // Auto-scroll to RSVP after 15 seconds
+    const rsvpTimer = setTimeout(() => {
+      if (overlayRef.current && rsvpRef.current) {
+        slowScrollTo(overlayRef.current, rsvpRef.current, 2000)
+      }
+    }, 15000)
+
+    return () => {
+      clearTimeout(timer)
+      clearTimeout(rsvpTimer)
+    }
   }, [])
 
   return (
@@ -182,7 +194,9 @@ export default function CardV5() {
           <FadeItem><GoldDividerV4 /></FadeItem>
 
           <FadeItem>
-            <RsvpForm styles={styles} />
+            <div ref={rsvpRef}>
+              <RsvpForm styles={styles} />
+            </div>
           </FadeItem>
 
           <FadeItem><CrescentMedallion /></FadeItem>
