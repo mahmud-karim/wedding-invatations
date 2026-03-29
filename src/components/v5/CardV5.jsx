@@ -199,6 +199,25 @@ export default function CardV5() {
             </div>
           </FadeItem>
 
+          <FadeItem><GoldDividerV4 /></FadeItem>
+
+          <FadeItem>
+            <div className={styles.registry}>
+              <p className={styles.registryTitle}>Wedding Registry</p>
+              <p className={styles.registryText}>
+                Your presence is our greatest gift. However, if you wish to honor us with a gift, we have a registry at Zola.
+              </p>
+              <a
+                href="https://www.zola.com/registry/mahmudandfariah"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.registryButton}
+              >
+                View Registry
+              </a>
+            </div>
+          </FadeItem>
+
           <FadeItem><CrescentMedallion /></FadeItem>
         </motion.div>
       </div>

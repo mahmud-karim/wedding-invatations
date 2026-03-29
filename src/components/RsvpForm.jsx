@@ -24,15 +24,22 @@ export default function RsvpForm({ styles }) {
       return
     }
     setErrors({})
-    const form = e.target
-    const data = new FormData(form)
-    fetch('/', {
+    const formData = {
+      attending,
+      guests,
+      guest_names: guestNames.filter(n => n.trim()).join(', '),
+      message: new FormData(e.target).get('message') || '',
+    }
+    fetch('/api/rsvp', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(data).toString(),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
     })
-      .then(() => setSubmitted(true))
-      .catch(() => setSubmitted(true))
+      .then(r => {
+        if (r.ok) setSubmitted(true)
+        else setErrors({ submit: 'Something went wrong. Please try again.' })
+      })
+      .catch(() => setErrors({ submit: 'Something went wrong. Please try again.' }))
   }
 
   if (submitted) {
@@ -61,11 +68,9 @@ export default function RsvpForm({ styles }) {
     <form
       className={styles.rsvpForm}
       name="rsvp"
-      method="POST"
-      data-netlify="true"
       onSubmit={handleSubmit}
     >
-      <input type="hidden" name="form-name" value="rsvp" />
+
 
       <p className={styles.rsvpHeading}>RSVP</p>
       <p className={styles.rsvpDeadline}>Kindly respond by April 5th, 2026</p>
@@ -151,6 +156,8 @@ export default function RsvpForm({ styles }) {
           rows="3"
         />
       </label>
+
+      {errors.submit && <p className={styles.rsvpError}>{errors.submit}</p>}
 
       <button type="submit" className={styles.rsvpButton}>
         Send RSVP
